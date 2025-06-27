@@ -11,81 +11,59 @@ const fonda = Fondamento({
 
 const Banner = () => {
   return (
-    <section className='relative w-full h-[100dvh] bg-gradient-to-br from-gray-900 via-[#1a1a1a] to-gray-800 overflow-hidden'>
-      {/* Dark-themed background elements */}
-      <div className='absolute inset-0 opacity-20'>
-        <div className='absolute top-20 left-20 w-40 h-40 rounded-full bg-emerald-900 filter blur-3xl'></div>
-        <div className='absolute bottom-10 right-32 w-60 h-60 rounded-full bg-blue-900 filter blur-3xl'></div>
-        <div className='absolute top-1/3 right-1/4 w-32 h-32 rounded-full bg-gray-700 filter blur-2xl'></div>
+    <section className="relative w-full h-[100dvh] bg-gradient-to-br from-gray-900 via-[#1a1a1a] to-gray-800 overflow-hidden flex items-center justify-center">
+      {/* Floating badge */}
+      <div className="absolute top-10 left-1/2 -translate-x-1/2 z-20">
+        <span className="inline-block bg-gradient-to-r from-emerald-500 to-blue-500 text-white px-6 py-2 rounded-full shadow-lg text-xs md:text-sm font-bold tracking-widest uppercase border-2 border-white/20 animate-fade-in">
+          Next-Gen Medical AI
+        </span>
       </div>
-      
-      {/* Medical icons decoration */}
-      <div className='absolute bottom-10 left-10 opacity-10'>
-        <MedicalSymbols />
-      </div>
-      
       {/* Main content */}
-      <div className='relative z-10 text-center top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full px-4'>
-        <div className='mb-6'>
+      <div className="relative z-10 w-full mx-auto rounded-[2.5rem] flex flex-col items-center gap-12 animate-fade-in">
+        <div className="flex flex-col items-center gap-2">
           <TypeAnimation
             sequence={[
-              'Your Health is Priority',
-              1000,
-              'Your Health is Crucial',
-              1000,
-              'Your Health is Vital',
-              1000
+              'Your Health, Our Mission.',
+              1200,
+              'Empowering Care with AI.',
+              1200,
+              'Modern Medical Solutions.',
+              1200
             ]}
             wrapper="span"
-            speed={50}
-            className='text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-white drop-shadow-lg'
+            speed={60}
+            className="text-5xl md:text-7xl font-extrabold text-white drop-shadow-2xl tracking-tight text-center leading-tight"
             repeat={Infinity}
           />
         </div>
-        
-        <p className='text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-gray-300 mb-8'>
-          Welcome to <span className={`${fonda.className} text-emerald-400`}>medMagic</span> - 
-          <span className='block mt-1'>Your trusted medical supplies partner</span>
+        <p className="text-lg md:text-2xl text-gray-200 text-center font-light max-w-2xl">
+          Welcome to <span className={`${fonda.className} text-emerald-400 font-semibold text-2xl md:text-3xl`}>medMagic</span> —
+          <span className="block mt-1 text-base md:text-lg text-blue-200 font-normal">Your trusted partner for AI-powered healthcare and certified medical supplies.</span>
         </p>
-        
-        <div className='flex flex-col sm:flex-row justify-center gap-4'>
-          <Link href="/store">
-            <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-full text-sm sm:text-base md:text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-              SHOP NOW
+        <div className="flex flex-col sm:flex-row gap-6 w-full justify-center">
+          <Link href="/store" className="w-full sm:w-auto">
+            <button className="w-full sm:w-auto bg-gradient-to-r from-emerald-500 via-blue-500 to-emerald-600 hover:from-emerald-600 hover:to-blue-700 text-white px-10 py-5 rounded-full text-xl font-bold shadow-xl hover:shadow-emerald-700/40 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-emerald-400/40 focus:ring-offset-2 scale-100 hover:scale-105">
+              Shop Now
+            </button>
+          </Link>
+          <Link href="/advice" className="w-full sm:w-auto">
+            <button className="w-full sm:w-auto bg-white/10 border-2 border-emerald-400 text-emerald-300 px-10 py-5 rounded-full text-xl font-bold shadow hover:bg-emerald-600/10 hover:text-white transition-all duration-300 scale-100 hover:scale-105">
+              Try AI Chat
             </button>
           </Link>
         </div>
-        
-        <div className='mt-12 flex flex-wrap justify-center gap-6 text-gray-400 text-xs sm:text-sm'>
-          <div className='flex items-center gap-2'>
-            <ShieldCheckIcon className='w-4 h-4 text-emerald-400' />
-            <span>Certified Medical Supplies</span>
-          </div>
-          <div className='flex items-center gap-2'>
-            <TruckIcon className='w-4 h-4 text-emerald-400' />
-            <span>Fast & Reliable Delivery</span>
-          </div>
-          <div className='flex items-center gap-2'>
-            <SupportIcon className='w-4 h-4 text-emerald-400' />
-            <span>24/7 Customer Support</span>
-          </div>
-        </div>
+
       </div>
     </section>
   )
 }
 
-const MedicalSymbols = () => {
-  return (
-    <div className='flex flex-wrap gap-8'>
-      {[...Array(8)].map((_, i) => (
-        <svg key={i} className="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-        </svg>
-      ))}
-    </div>
-  )
-}
+const Feature = ({ icon, text }) => (
+  <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full shadow-sm border border-white/20">
+    {icon}
+    <span className="font-medium text-gray-100 whitespace-nowrap text-sm md:text-base">{text}</span>
+  </div>
+)
 
 const ShieldCheckIcon = ({ className }) => (
   <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
