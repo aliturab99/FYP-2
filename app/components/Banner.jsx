@@ -46,11 +46,6 @@ const Banner = () => {
               Shop Now
             </button>
           </Link>
-          <Link href="/advice" className="w-full sm:w-auto">
-            <button className="w-full sm:w-auto bg-white/10 border-2 border-emerald-400 text-emerald-300 px-10 py-5 rounded-full text-xl font-bold shadow hover:bg-emerald-600/10 hover:text-white transition-all duration-300 scale-100 hover:scale-105">
-              Try AI Chat
-            </button>
-          </Link>
         </div>
 
       </div>
