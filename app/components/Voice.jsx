@@ -98,6 +98,26 @@ const VoiceController = () => {
     });
   }, [addCommand]);
 
+  // Send transcript to Gemini and log response
+  useEffect(() => {
+    if (transcript) {
+      fetch('/api/gemini', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: transcript }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.result) {
+            console.log('Gemini response:', data.result);
+          } else {
+            console.error('Gemini error:', data.error);
+          }
+        })
+        .catch(err => console.error('Request failed:', err));
+    }
+  }, [transcript]);
+
   return (
     <div className="fixed bottom-4 right-4 mb-7">
       <div className="bg-[#1a1a1a] dark:bg-gray-800 p-4 rounded-lg shadow-lg mb-[50dvh] animate-pulse">
