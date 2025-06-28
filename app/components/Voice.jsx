@@ -86,16 +86,6 @@ const VoiceController = () => {
     addCommand('appointment', () => {
         window.location.href = '/appointments';
     });
-    addCommand('take quiz', () => {
-        window.location.href = '/quiz';
-    });
-    addCommand('dark mode', () => {
-      document.documentElement.classList.add('dark');
-    });
-    
-    addCommand('light mode', () => {
-      document.documentElement.classList.remove('dark');
-    });
   }, [addCommand]);
 
   // Send transcript to Gemini and log response
