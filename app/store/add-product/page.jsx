@@ -3,7 +3,6 @@ import { useUser, SignInButton } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import { fetchCategories } from "../../lib/categories";
-import apiClient from "../../lib/api";
 
 const AddProduct = () => {
   const { isSignedIn, isLoaded, user } = useUser();
@@ -37,8 +36,12 @@ const AddProduct = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const result = await apiClient.createProduct(form);
-      if (result.success) {
+      const res = await fetch("/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form)
+      });
+      if (res.ok) {
         setSuccess(true);
         setForm({ 
           name: "", 
@@ -47,11 +50,7 @@ const AddProduct = () => {
           link: "", 
           category: categories.length > 0 ? categories[0].id : "" 
         });
-        setTimeout(() => setSuccess(false), 3000);
       }
-    } catch (error) {
-      console.error('Error adding product:', error);
-      alert('Error adding product: ' + error.message);
     } finally {
       setLoading(false);
     }
