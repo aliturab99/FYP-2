@@ -86,17 +86,27 @@ const VoiceController = () => {
     addCommand('appointment', () => {
         window.location.href = '/appointments';
     });
-    addCommand('take quiz', () => {
-        window.location.href = '/quiz';
-    });
-    addCommand('dark mode', () => {
-      document.documentElement.classList.add('dark');
-    });
-    
-    addCommand('light mode', () => {
-      document.documentElement.classList.remove('dark');
-    });
   }, [addCommand]);
+
+  // Send transcript to Gemini and log response
+  useEffect(() => {
+    if (transcript) {
+      fetch('/api/gemini', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: transcript }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.result) {
+            console.log('Gemini response:', data.result);
+          } else {
+            console.error('Gemini error:', data.error);
+          }
+        })
+        .catch(err => console.error('Request failed:', err));
+    }
+  }, [transcript]);
 
   return (
     <div className="fixed bottom-4 right-4 mb-7">

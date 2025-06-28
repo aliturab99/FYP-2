@@ -89,49 +89,134 @@ const ChatBot = () => {
   return (
     <>
       <div
+        style={{
+          position: 'fixed',
+          bottom: '90px',
+          left: '10px',
+          zIndex: 1000,
+          cursor: 'pointer',
+          background: '#1a1a1a',
+          color: '#1a1a1a',
+          borderRadius: '50%',
+          width: '52px',
+          height: '52px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.10)',
+          fontWeight: 600,
+          fontSize: 22,
+          border: 'none',
+        }}
         onClick={toggleChatbotVisibility}
-        className='fixed bottom-10 right-5 animate-pulse rounded-full bg-[#2563eb] text-white p-4 cursor-pointer shadow-lg hover:shadow-xl transition-shadow'
+        className='mb-[50dvh]'
+        title="Open Medical Chatbot"
       >
-        Chat
+        💬
       </div>
 
       {isChatbotVisible && (
         <div
-          className="fixed bottom-20 right-5 z-[999] w-[350px] max-w-[95vw] h-[480px] max-h-[80vh] bg-[#18181b] rounded-xl shadow-xl flex flex-col overflow-hidden border border-[#23232a]"
+          style={{
+            position: 'fixed',
+            bottom: '80px',
+            right: '20px',
+            zIndex: 999,
+            width: '350px',
+            maxWidth: '95vw',
+            height: '480px',
+            maxHeight: '80vh',
+            background: '#fff',
+            borderRadius: '12px',
+            boxShadow: '0 4px 24px rgba(0,0,0,0.10)',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+            border: '1px solid #e5e7eb',
+          }}
         >
-          <div className="bg-[#23232a] text-white px-4 py-3 font-semibold text-base border-b border-[#23232a] text-center tracking-wide relative">
+          <div style={{
+            background: '#2563eb',
+            color: 'white',
+            padding: '12px 16px',
+            fontWeight: 600,
+            fontSize: 16,
+            borderBottom: '1px solid #e5e7eb',
+            textAlign: 'center',
+            letterSpacing: 0.5,
+          }}>
             Medical Assistant
-            <button
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-400 text-lg font-bold p-1 rounded transition-colors"
-              onClick={() => setIsChatbotVisible(false)}
-              aria-label="Close chat"
-              type="button"
-            >
-              ×
-            </button>
           </div>
-          <div className="flex-1 p-3 overflow-y-auto bg-[#18181b]">
+          <div style={{ flex: 1, padding: 12, overflowY: 'auto', background: '#fff' }}>
             {messages.map((msg, idx) => (
-              <div key={idx} className={`my-2 flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+              <div key={idx} style={{
+                margin: '8px 0',
+                textAlign: msg.sender === 'user' ? 'right' : 'left',
+                display: 'flex',
+                flexDirection: msg.sender === 'user' ? 'row-reverse' : 'row',
+                alignItems: 'flex-end',
+              }}>
                 {msg.sender === 'ai' && msg.isHtml ? (
-                  <span className="inline-block bg-[#23232a] text-white rounded-lg px-3 py-2 max-w-[80%] text-sm" dangerouslySetInnerHTML={{ __html: msg.text }} />
+                  <span style={{
+                    display: 'inline-block',
+                    background: '#f3f4f6',
+                    color: '#222',
+                    borderRadius: 10,
+                    padding: '8px 12px',
+                    maxWidth: '80%',
+                    wordBreak: 'break-word',
+                    fontSize: 14,
+                  }}
+                    dangerouslySetInnerHTML={{ __html: msg.text }}
+                  />
                 ) : (
-                  <span className={`inline-block rounded-lg px-3 py-2 max-w-[80%] text-sm ${msg.sender === 'user' ? 'bg-[#2563eb] text-white' : 'bg-[#23232a] text-white'}`}>{msg.text}</span>
+                  <span style={{
+                    display: 'inline-block',
+                    background: msg.sender === 'user' ? '#2563eb' : '#f3f4f6',
+                    color: msg.sender === 'user' ? 'white' : '#222',
+                    borderRadius: 10,
+                    padding: '8px 12px',
+                    maxWidth: '80%',
+                    wordBreak: 'break-word',
+                    fontSize: 14,
+                  }}>{msg.text}</span>
                 )}
               </div>
             ))}
-            {(loading || waitingForSystemPrompt) && <div className="text-[#2563eb] text-center mt-4 font-medium text-sm">Gemini is preparing your medical assistant...</div>}
+            {(loading || waitingForSystemPrompt) && <div style={{ color: '#2563eb', textAlign: 'center', marginTop: 18, fontWeight: 500, fontSize: 14 }}>
+              Gemini is preparing your medical assistant...
+            </div>}
           </div>
-          <form onSubmit={sendMessage} className="flex border-t border-[#23232a] bg-[#18181b] p-2">
+          <form onSubmit={sendMessage} style={{ display: 'flex', borderTop: '1px solid #e5e7eb', background: '#fff', padding: 8 }}>
             <input
               type="text"
               value={input}
               onChange={e => setInput(e.target.value)}
               placeholder={waitingForSystemPrompt ? "Please wait..." : "Type your message..."}
-              className="flex-1 px-3 py-2 border border-[#23232a] outline-none rounded-md text-sm bg-[#23232a] mr-2 text-white font-normal"
+              style={{
+                flex: 1,
+                padding: 10,
+                border: '1px solid #e5e7eb',
+                outline: 'none',
+                borderRadius: 8,
+                fontSize: 14,
+                background: '#f9fafb',
+                marginRight: 8,
+                color: '#222',
+                fontWeight: 400,
+              }}
               disabled={loading || waitingForSystemPrompt}
             />
-            <button type="submit" className="px-4 bg-[#2563eb] text-white border-none rounded-md font-semibold text-sm disabled:opacity-60" disabled={loading || waitingForSystemPrompt}>
+            <button type="submit" style={{
+              padding: '0 16px',
+              background: '#2563eb',
+              color: 'white',
+              border: 'none',
+              borderRadius: 8,
+              fontWeight: 600,
+              fontSize: 14,
+              cursor: loading || waitingForSystemPrompt ? 'not-allowed' : 'pointer',
+            }} disabled={loading || waitingForSystemPrompt}>
               Send
             </button>
           </form>
