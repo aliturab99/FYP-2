@@ -3,9 +3,9 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import axios from 'axios'
 import NoSSR from '../components/NoSSR'
 import { fetchCategories } from '../lib/categories'
-import apiClient from '../lib/api'
 
 const LoadingSkeleton = () => (
   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
@@ -36,9 +36,9 @@ const StoreContent = () => {
       setError(null);
       try {
         // Fetch categories and products in parallel
-        const [categoriesData, productsData] = await Promise.all([
+        const [categoriesData, productsRes] = await Promise.all([
           fetchCategories(),
-          apiClient.getProducts()
+          axios.get('/api/products')
         ]);
         
         // Set categories with "All Products" option
@@ -47,9 +47,7 @@ const StoreContent = () => {
           ...categoriesData
         ]);
         
-        // Handle both paginated and simple array responses
-        const products = productsData.products || productsData;
-        setProducts(products);
+        setProducts(productsRes.data);
       } catch (err) {
         setError('Failed to load data.');
         console.error('Error loading store data:', err);
@@ -61,7 +59,7 @@ const StoreContent = () => {
     loadData();
   }, []);
 
-  const filteredProducts = products.filter(product => 
+  const filteredProducts = products?.filter(product => 
     activeCategory === 'all' ? true : product.category === activeCategory
   );
 

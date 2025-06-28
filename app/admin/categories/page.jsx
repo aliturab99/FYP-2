@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import NoSSR from "../../components/NoSSR";
-import apiClient from "../../lib/api";
 
 const CategoriesManagement = () => {
   const { isSignedIn, isLoaded, user } = useUser();
@@ -41,7 +40,8 @@ const CategoriesManagement = () => {
 
   const fetchCategories = async () => {
     try {
-      const data = await apiClient.getCategories({ includeCount: 'true' });
+      const res = await fetch('/api/categories');
+      const data = await res.json();
       setCategories(data);
     } catch (error) {
       console.error('Error fetching categories:', error);
@@ -53,41 +53,53 @@ const CategoriesManagement = () => {
   const addCategory = async (e) => {
     e.preventDefault();
     try {
-      const result = await apiClient.createCategory(newCategory);
-      if (result.success) {
+      const res = await fetch('/api/categories', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newCategory)
+      });
+      
+      if (res.ok) {
         fetchCategories();
         setNewCategory({ id: '', name: '', description: '', icon: '📦', order: 0 });
         setShowAddForm(false);
+      } else {
+        const error = await res.json();
+        alert(error.error);
       }
     } catch (error) {
       console.error('Error adding category:', error);
-      alert('Error adding category: ' + error.message);
+      alert('Failed to add category');
     }
   };
 
   const updateCategory = async (id, updatedData) => {
     try {
-      const result = await apiClient.updateCategory(id, updatedData);
-      if (result.success) {
+      const res = await fetch(`/api/categories/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedData)
+      });
+      if (res.ok) {
         fetchCategories();
         setEditingCategory(null);
       }
     } catch (error) {
       console.error('Error updating category:', error);
-      alert('Error updating category: ' + error.message);
     }
   };
 
   const deleteCategory = async (id) => {
     try {
-      const result = await apiClient.deleteCategory(id);
-      if (result.success) {
+      const res = await fetch(`/api/categories/${id}`, {
+        method: 'DELETE',
+      });
+      if (res.ok) {
         fetchCategories();
         setDeleteConfirm(null);
       }
     } catch (error) {
       console.error('Error deleting category:', error);
-      alert('Error deleting category: ' + error.message);
     }
   };
 
