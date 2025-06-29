@@ -52,6 +52,7 @@ const Banner = () => {
           <Link href="/store">
             <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-full text-sm sm:text-base md:text-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
               SHOP NOW
+
             </button>
           </Link>
           <Link href="/advice" className="w-full sm:w-auto">
